@@ -1,1 +1,2 @@
 # tic-tac-toe
+This repository will feature the "Tic Tac Toe" project from "The Odin Project". The objective is to create a player vs player game to be played out in the browser, with the main goal being to use as little global code as possible. 
