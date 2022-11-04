@@ -1,0 +1,66 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  padding: 0%;
+  margin: 0%;
+}
+
+body {
+  display: grid;
+  grid-template: .8fr 3fr .8fr/ .8fr 3fr .8fr;
+  height: 100vh;
+  background-color: blueviolet;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+.header {
+  display: grid;
+  grid-area: 1 / 2 / 2 / 3;
+  align-items: center;
+  justify-items: center;
+}
+
+.display {
+  display: flex;
+  width: 50%;
+  height: 80%;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.player1-box, .player2-box {
+ display: grid;
+}
+
+.player1-box {
+  grid-area: 2 / 1 / 3 / 2;
+  background-color: aqua;
+}
+
+.player2-box {
+  grid-area: 2 / 3 / 3 / 4;
+  background-color: aquamarine;
+}
+
+.game-board {
+  display: grid;
+  grid-area: 2 / 2 / 3 / 3;
+  grid-template: repeat(3, 1fr)/ repeat(3, 1fr);
+  gap: 1%;
+  margin: 0% 2%;
+  background-color: white;
+}
+
+.game-piece-box {
+  background-color: blueviolet;
+}
+
+.button-container {
+  display: grid;
+  grid-area: 3 / 2 / 4 / 3;
+  grid-template-columns: repeat(4, 1fr);
+}
