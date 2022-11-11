@@ -22,7 +22,7 @@ h1 {
   justify-items: center;
 }
 
-.display {
+#display {
   display: flex;
   width: 50%;
   height: 80%;
