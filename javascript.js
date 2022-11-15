@@ -29,13 +29,13 @@ const playerModule = (function() {
   const _addPlayer1 = function() {
     players.push(_playerFactory(player1Input.value, 1))
     _render(`Welcome ${player1Input.value}!`)
-    console.log(playerModule.players)
+    console.log(players)
   }
 
   const _addPlayer2 = function() {
     players.push(_playerFactory(player2Input.value, 2))
     _render(`Welcome ${player2Input.value}!`)
-    console.log(playerModule.players)
+    console.log(players)
   }
 
   const _render = function(text) {
@@ -47,3 +47,47 @@ const playerModule = (function() {
 })();
 
 playerModule.init()
+
+// -----------------------------------------------
+
+const gameBoardModule = (function() {
+
+  let gameBoard = []
+
+  const _pieceFactory = function(value) {
+    return {value}
+  }
+
+  const init = function() {
+    _cacheDom()
+    _render()
+  }
+
+  const _cacheDom = function() {
+    board = document.querySelector('.game-board')
+  }
+
+  const _addPiece = function() {
+    createDiv = document.createElement('div')
+    createDiv.classList.add('game-piece-box')
+  }
+
+  const _setDataAttribute = function(x) {
+    createDiv.setAttribute('num', x)
+  }
+
+  const _render = function() {
+    for (let x = 0; x <= 8; x++) {
+      _addPiece()
+      _setDataAttribute(x)
+      board.appendChild(createDiv)
+      gameBoard.push(_pieceFactory(x))
+    }
+  }
+
+  console.log(gameBoard)
+  return {init, gameBoard}
+
+})();
+
+gameBoardModule.init()
