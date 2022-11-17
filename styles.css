@@ -64,3 +64,11 @@ h1 {
   grid-area: 3 / 2 / 4 / 3;
   grid-template-columns: repeat(4, 1fr);
 }
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}

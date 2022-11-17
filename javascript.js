@@ -67,15 +67,6 @@ const gameBoardModule = (function() {
     board = document.querySelector('.game-board')
   }
 
-  const _addPiece = function() {
-    createDiv = document.createElement('div')
-    createDiv.classList.add('game-piece-box')
-  }
-
-  const _setDataAttribute = function(x) {
-    createDiv.setAttribute('num', x)
-  }
-
   const _render = function() {
     for (let x = 0; x <= 8; x++) {
       _addPiece()
@@ -85,9 +76,79 @@ const gameBoardModule = (function() {
     }
   }
 
+  const _addPiece = function() {
+    createDiv = document.createElement('div')
+    createDiv.classList.add('game-piece-box')
+  }
+
+  const _setDataAttribute = function(x) {
+    createDiv.setAttribute('num', x)
+    createDiv.setAttribute('state', 0)
+  }
+
   console.log(gameBoard)
   return {init, gameBoard}
 
 })();
 
 gameBoardModule.init()
+
+// --------------------------------------------------
+
+const gameModule = (function() {
+
+  const init = function() {
+    _cacheDom()
+    _bindEvents()
+  }
+
+  const _cacheDom = function() {
+    pieces = document.querySelectorAll('.game-piece-box')
+    start = document.getElementById('start') 
+    restart = document.getElementById('restart')
+    display = document.getElementById('display')
+  }
+
+  const _bindEvents = function() {
+    _xoEvents()
+    // _startGame()
+    // _restartGame()
+  }
+
+  const _xoEvents = function() {
+    pieces.forEach(piece => {
+      value = 1
+      piece.addEventListener('click', () => {
+        currentState = piece.getAttribute('state')
+        if (value == 1 && currentState != 1 && currentState != 2) {
+          piece.classList.add('red')
+          piece.setAttribute('state', 1)
+          value = 2
+        } else if (value == 2 && currentState != 1 && currentState != 2) {
+          piece.classList.add('blue')
+          piece.setAttribute('state', 2)
+          value = 1
+        } else {
+          return;
+        }
+      })
+    });
+  }
+
+  const _startGame = function() {
+    // will fire _xoEvents()
+  }
+
+  const _restartGame = function() {
+
+  }
+
+  const _render = function() {
+    // for display work
+  }
+
+  return {init}
+
+})();
+
+gameModule.init()
