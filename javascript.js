@@ -54,8 +54,8 @@ const gameBoardModule = (function() {
 
   let gameBoard = []
 
-  const _pieceFactory = function(value) {
-    return {value}
+  const _pieceFactory = function(num, state) {
+    return {num, state}
   }
 
   const init = function() {
@@ -72,7 +72,7 @@ const gameBoardModule = (function() {
       _addPiece()
       _setDataAttribute(x)
       board.appendChild(createDiv)
-      gameBoard.push(_pieceFactory(x))
+      gameBoard.push(_pieceFactory(x, 0))
     }
   }
 
@@ -120,19 +120,34 @@ const gameModule = (function() {
       value = 1
       piece.addEventListener('click', () => {
         currentState = piece.getAttribute('state')
+        currentNum = piece.getAttribute('num')
         if (value == 1 && currentState != 1 && currentState != 2) {
           piece.classList.add('red')
           piece.setAttribute('state', 1)
+          _changeArrayState(currentNum, value)
           value = 2
+          // _checkWinState()
         } else if (value == 2 && currentState != 1 && currentState != 2) {
           piece.classList.add('blue')
           piece.setAttribute('state', 2)
+          _changeArrayState(currentNum, value)
           value = 1
+          // _checkWinState()
         } else {
           return;
         }
       })
     });
+  }
+
+  const _changeArrayState = function(x, y) {
+    let myArray = gameBoardModule.gameBoard
+    arrayItem = myArray.findIndex((obj => obj.num == x))
+    myArray[arrayItem].state = y
+  }
+
+  const _checkWinState = function() {
+    
   }
 
   const _startGame = function() {
