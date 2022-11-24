@@ -126,13 +126,13 @@ const gameModule = (function() {
           piece.setAttribute('state', 1)
           _changeArrayState(currentNum, value)
           value = 2
-          // _checkWinState()
+          _checkWinState()
         } else if (value == 2 && currentState != 1 && currentState != 2) {
           piece.classList.add('blue')
           piece.setAttribute('state', 2)
           _changeArrayState(currentNum, value)
           value = 1
-          // _checkWinState()
+          _checkWinState()
         } else {
           return;
         }
@@ -140,14 +140,35 @@ const gameModule = (function() {
     });
   }
 
+  const myArray = gameBoardModule.gameBoard
+
   const _changeArrayState = function(x, y) {
-    let myArray = gameBoardModule.gameBoard
     arrayItem = myArray.findIndex((obj => obj.num == x))
     myArray[arrayItem].state = y
   }
 
   const _checkWinState = function() {
-    
+    if (myArray[0].state == 1 && myArray[1].state == 1 && myArray[2].state == 1
+      || myArray[3].state == 1 && myArray[4].state == 1 && myArray[5].state == 1
+      || myArray[6].state == 1 && myArray[7].state == 1 && myArray[8].state == 1
+      || myArray[0].state == 1 && myArray[3].state == 1 && myArray[6].state == 1
+      || myArray[1].state == 1 && myArray[4].state == 1 && myArray[7].state == 1
+      || myArray[2].state == 1 && myArray[5].state == 1 && myArray[8].state == 1
+      || myArray[0].state == 1 && myArray[4].state == 1 && myArray[8].state == 1
+      || myArray[2].state == 1 && myArray[4].state == 1 && myArray[6].state == 1){
+      console.log('player1 win')
+    } else if (myArray[0].state == 2 && myArray[1].state == 2 && myArray[2].state == 2
+      || myArray[3].state == 2 && myArray[4].state == 2 && myArray[5].state == 2
+      || myArray[6].state == 2 && myArray[7].state == 2 && myArray[8].state == 2
+      || myArray[0].state == 2 && myArray[3].state == 2 && myArray[6].state == 2
+      || myArray[1].state == 2 && myArray[4].state == 2 && myArray[7].state == 2
+      || myArray[2].state == 2 && myArray[5].state == 2 && myArray[8].state == 2
+      || myArray[0].state == 2 && myArray[4].state == 2 && myArray[8].state == 2
+      || myArray[2].state == 2 && myArray[4].state == 2 && myArray[6].state == 2){
+        console.log('player2 win')
+      } else {
+        return;
+      }
   }
 
   const _startGame = function() {
