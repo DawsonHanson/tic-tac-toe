@@ -22,8 +22,8 @@ const playerModule = (function() {
   }
 
   const _bindEvents = function() {
-    button1.addEventListener('click', _addPlayer1)
-    button2.addEventListener('click', _addPlayer2)
+    button1.addEventListener('click', _addPlayer1, {once: true})
+    button2.addEventListener('click', _addPlayer2, {once: true})
   }
 
   const _addPlayer1 = function() {
@@ -97,6 +97,9 @@ gameBoardModule.init()
 
 const gameModule = (function() {
 
+  const gBArray = gameBoardModule.gameBoard
+  const pMArray = playerModule.players
+
   const init = function() {
     _cacheDom()
     _bindEvents()
@@ -110,9 +113,25 @@ const gameModule = (function() {
   }
 
   const _bindEvents = function() {
-    _xoEvents()
-    // _startGame()
+    start.addEventListener('click',_startGame)
     // _restartGame()
+  }
+
+  const _startGame = function() {
+    if (pMArray.length == 2) {
+      _xoEvents()
+      _render('May the odds be ever in your favor')
+    } else {
+      _render('Please create both players')
+    }
+  }
+
+  const _restartGame = function() {
+
+  }
+
+  const _render = function(text) {
+    display.textContent = text
   }
 
   const _xoEvents = function() {
@@ -140,47 +159,38 @@ const gameModule = (function() {
     });
   }
 
-  const myArray = gameBoardModule.gameBoard
-
   const _changeArrayState = function(x, y) {
-    arrayItem = myArray.findIndex((obj => obj.num == x))
-    myArray[arrayItem].state = y
+    arrayItem = gBArray.findIndex((obj => obj.num == x))
+    gBArray[arrayItem].state = y
   }
 
   const _checkWinState = function() {
-    if (myArray[0].state == 1 && myArray[1].state == 1 && myArray[2].state == 1
-      || myArray[3].state == 1 && myArray[4].state == 1 && myArray[5].state == 1
-      || myArray[6].state == 1 && myArray[7].state == 1 && myArray[8].state == 1
-      || myArray[0].state == 1 && myArray[3].state == 1 && myArray[6].state == 1
-      || myArray[1].state == 1 && myArray[4].state == 1 && myArray[7].state == 1
-      || myArray[2].state == 1 && myArray[5].state == 1 && myArray[8].state == 1
-      || myArray[0].state == 1 && myArray[4].state == 1 && myArray[8].state == 1
-      || myArray[2].state == 1 && myArray[4].state == 1 && myArray[6].state == 1){
-      console.log('player1 win')
-    } else if (myArray[0].state == 2 && myArray[1].state == 2 && myArray[2].state == 2
-      || myArray[3].state == 2 && myArray[4].state == 2 && myArray[5].state == 2
-      || myArray[6].state == 2 && myArray[7].state == 2 && myArray[8].state == 2
-      || myArray[0].state == 2 && myArray[3].state == 2 && myArray[6].state == 2
-      || myArray[1].state == 2 && myArray[4].state == 2 && myArray[7].state == 2
-      || myArray[2].state == 2 && myArray[5].state == 2 && myArray[8].state == 2
-      || myArray[0].state == 2 && myArray[4].state == 2 && myArray[8].state == 2
-      || myArray[2].state == 2 && myArray[4].state == 2 && myArray[6].state == 2){
-        console.log('player2 win')
+    if (gBArray[0].state == 1 && gBArray[1].state == 1 && gBArray[2].state == 1
+      || gBArray[3].state == 1 && gBArray[4].state == 1 && gBArray[5].state == 1
+      || gBArray[6].state == 1 && gBArray[7].state == 1 && gBArray[8].state == 1
+      || gBArray[0].state == 1 && gBArray[3].state == 1 && gBArray[6].state == 1
+      || gBArray[1].state == 1 && gBArray[4].state == 1 && gBArray[7].state == 1
+      || gBArray[2].state == 1 && gBArray[5].state == 1 && gBArray[8].state == 1
+      || gBArray[0].state == 1 && gBArray[4].state == 1 && gBArray[8].state == 1
+      || gBArray[2].state == 1 && gBArray[4].state == 1 && gBArray[6].state == 1){
+      _winMsg(1)
+    } else if (gBArray[0].state == 2 && gBArray[1].state == 2 && gBArray[2].state == 2
+      || gBArray[3].state == 2 && gBArray[4].state == 2 && gBArray[5].state == 2
+      || gBArray[6].state == 2 && gBArray[7].state == 2 && gBArray[8].state == 2
+      || gBArray[0].state == 2 && gBArray[3].state == 2 && gBArray[6].state == 2
+      || gBArray[1].state == 2 && gBArray[4].state == 2 && gBArray[7].state == 2
+      || gBArray[2].state == 2 && gBArray[5].state == 2 && gBArray[8].state == 2
+      || gBArray[0].state == 2 && gBArray[4].state == 2 && gBArray[8].state == 2
+      || gBArray[2].state == 2 && gBArray[4].state == 2 && gBArray[6].state == 2){
+      _winMsg(2)
       } else {
         return;
       }
   }
 
-  const _startGame = function() {
-    // will fire _xoEvents()
-  }
-
-  const _restartGame = function() {
-
-  }
-
-  const _render = function() {
-    // for display work
+  const _winMsg = function(x) {
+    arrayItem = pMArray.findIndex((obj => obj.value == x))
+    _render(`Congratulations ${pMArray[arrayItem].name} you've won!`)
   }
 
   return {init}
