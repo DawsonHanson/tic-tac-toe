@@ -29,13 +29,11 @@ const playerModule = (function() {
   const _addPlayer1 = function() {
     players.push(_playerFactory(player1Input.value, 1))
     _render(`Welcome ${player1Input.value}!`)
-    console.log(players)
   }
 
   const _addPlayer2 = function() {
     players.push(_playerFactory(player2Input.value, 2))
     _render(`Welcome ${player2Input.value}!`)
-    console.log(players)
   }
 
   const _render = function(text) {
@@ -86,7 +84,6 @@ const gameBoardModule = (function() {
     createDiv.setAttribute('state', 0)
   }
 
-  console.log(gameBoard)
   return {init, gameBoard}
 
 })();
@@ -113,30 +110,49 @@ const gameModule = (function() {
   }
 
   const _bindEvents = function() {
-    start.addEventListener('click',_startGame)
-    // _restartGame()
+    start.addEventListener('click', _startGame)
+    restart.addEventListener('click', _restartGame)
   }
 
   const _startGame = function() {
     if (pMArray.length == 2) {
-      _xoEvents()
-      _render('May the odds be ever in your favor')
+      _xoEvents(1)
+      _render('May the odds be ever in your favor!')
+      start.removeEventListener('click', _startGame)
+      setTimeout(_timeOutMsg, 2000)
     } else {
       _render('Please create both players')
     }
   }
 
   const _restartGame = function() {
+    pieces.forEach(piece => {
+      piece.setAttribute('state', 0)
+      piece.classList.remove('red')
+      piece.classList.remove('blue')
+    })
+    gBArray.forEach(element => {
+      element.state = 0
+    })
+    _xoEvents(1)
+    _render('if at first you don\'t succeed, try try again')
+    setTimeout(_timeOutMsg, 2000)
+  }
 
+  const _timeOutMsg = function() {
+    player1 = pMArray.findIndex((obj => obj.value == 1))
+    _render(`${pMArray[player1].name}/'s turn`)
   }
 
   const _render = function(text) {
     display.textContent = text
   }
 
-  const _xoEvents = function() {
+  const _xoEvents = function(x) {
+    player1 = pMArray.findIndex((obj => obj.value == 1))
+    player2 = pMArray.findIndex((obj => obj.value == 2))
     pieces.forEach(piece => {
-      value = 1
+      value = x
       piece.addEventListener('click', () => {
         currentState = piece.getAttribute('state')
         currentNum = piece.getAttribute('num')
@@ -145,12 +161,14 @@ const gameModule = (function() {
           piece.setAttribute('state', 1)
           _changeArrayState(currentNum, value)
           value = 2
+          _render(`${pMArray[player2].name}/'s turn`)
           _checkWinState()
         } else if (value == 2 && currentState != 1 && currentState != 2) {
           piece.classList.add('blue')
           piece.setAttribute('state', 2)
           _changeArrayState(currentNum, value)
           value = 1
+          _render(`${pMArray[player1].name}/'s turn`)
           _checkWinState()
         } else {
           return;
@@ -173,7 +191,8 @@ const gameModule = (function() {
       || gBArray[2].state == 1 && gBArray[5].state == 1 && gBArray[8].state == 1
       || gBArray[0].state == 1 && gBArray[4].state == 1 && gBArray[8].state == 1
       || gBArray[2].state == 1 && gBArray[4].state == 1 && gBArray[6].state == 1){
-      _winMsg(1)
+        _render(`Congratulations ${pMArray[player1].name}, you've won!`)
+
     } else if (gBArray[0].state == 2 && gBArray[1].state == 2 && gBArray[2].state == 2
       || gBArray[3].state == 2 && gBArray[4].state == 2 && gBArray[5].state == 2
       || gBArray[6].state == 2 && gBArray[7].state == 2 && gBArray[8].state == 2
@@ -182,15 +201,11 @@ const gameModule = (function() {
       || gBArray[2].state == 2 && gBArray[5].state == 2 && gBArray[8].state == 2
       || gBArray[0].state == 2 && gBArray[4].state == 2 && gBArray[8].state == 2
       || gBArray[2].state == 2 && gBArray[4].state == 2 && gBArray[6].state == 2){
-      _winMsg(2)
+        _render(`Congratulations ${pMArray[player2].name}, you've won!`)
+
       } else {
         return;
       }
-  }
-
-  const _winMsg = function(x) {
-    arrayItem = pMArray.findIndex((obj => obj.value == x))
-    _render(`Congratulations ${pMArray[arrayItem].name} you've won!`)
   }
 
   return {init}
