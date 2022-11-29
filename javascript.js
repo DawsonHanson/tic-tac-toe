@@ -1,5 +1,3 @@
-console.log('Test!');
-
 const playerModule = (function() {
 
   let players = []
@@ -22,18 +20,28 @@ const playerModule = (function() {
   }
 
   const _bindEvents = function() {
-    button1.addEventListener('click', _addPlayer1, {once: true})
-    button2.addEventListener('click', _addPlayer2, {once: true})
+    button1.addEventListener('click', _addPlayer1)
+    button2.addEventListener('click', _addPlayer2)
   }
 
   const _addPlayer1 = function() {
+    if (player1Input.value > '') {
     players.push(_playerFactory(player1Input.value, 1))
     _render(`Welcome ${player1Input.value}!`)
+    button1.removeEventListener('click',_addPlayer1)
+    } else {
+      _render('Please add text to name field')
+    }
   }
 
   const _addPlayer2 = function() {
+    if (player2Input.value > '') {
     players.push(_playerFactory(player2Input.value, 2))
     _render(`Welcome ${player2Input.value}!`)
+    button2.removeEventListener('click',_addPlayer2)
+    } else {
+      _render('Please add text to name field')
+    }
   }
 
   const _render = function(text) {
@@ -96,6 +104,7 @@ const gameModule = (function() {
 
   const gBArray = gameBoardModule.gameBoard
   const pMArray = playerModule.players
+  let marker = 0
 
   const init = function() {
     _cacheDom()
@@ -120,23 +129,26 @@ const gameModule = (function() {
       _render('May the odds be ever in your favor!')
       start.removeEventListener('click', _startGame)
       setTimeout(_timeOutMsg, 2000)
+      marker = 1
     } else {
       _render('Please create both players')
     }
   }
 
   const _restartGame = function() {
-    pieces.forEach(piece => {
-      piece.setAttribute('state', 0)
-      piece.classList.remove('red')
-      piece.classList.remove('blue')
-    })
-    gBArray.forEach(element => {
-      element.state = 0
-    })
-    _xoEvents(1)
-    _render('if at first you don\'t succeed, try try again')
-    setTimeout(_timeOutMsg, 2000)
+    if (marker == 1) {
+      pieces.forEach(piece => {
+        piece.setAttribute('state', 0)
+        piece.classList.remove('red')
+        piece.classList.remove('blue')
+      })
+      gBArray.forEach(element => {
+        element.state = 0
+      })
+      _xoEvents(1)
+      _render('if at first you don\'t succeed, try try again')
+      setTimeout(_timeOutMsg, 2000)
+    }
   }
 
   const _timeOutMsg = function() {
