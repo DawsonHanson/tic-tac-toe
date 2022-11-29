@@ -146,14 +146,14 @@ const gameModule = (function() {
         element.state = 0
       })
       _xoEvents(1)
-      _render('if at first you don\'t succeed, try try again')
+      _render(`If at first you don't succeed, try try again!`)
       setTimeout(_timeOutMsg, 2000)
     }
   }
 
   const _timeOutMsg = function() {
     player1 = pMArray.findIndex((obj => obj.value == 1))
-    _render(`${pMArray[player1].name}/'s turn`)
+    _render(`${pMArray[player1].name}'s turn`)
   }
 
   const _render = function(text) {
@@ -173,14 +173,14 @@ const gameModule = (function() {
           piece.setAttribute('state', 1)
           _changeArrayState(currentNum, value)
           value = 2
-          _render(`${pMArray[player2].name}/'s turn`)
+          _render(`${pMArray[player2].name}'s turn`)
           _checkWinState()
         } else if (value == 2 && currentState != 1 && currentState != 2) {
           piece.classList.add('blue')
           piece.setAttribute('state', 2)
           _changeArrayState(currentNum, value)
           value = 1
-          _render(`${pMArray[player1].name}/'s turn`)
+          _render(`${pMArray[player1].name}'s turn`)
           _checkWinState()
         } else {
           return;
