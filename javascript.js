@@ -139,8 +139,8 @@ const gameModule = (function() {
     if (marker == 1) {
       pieces.forEach(piece => {
         piece.setAttribute('state', 0)
-        piece.classList.remove('red')
-        piece.classList.remove('blue')
+        piece.classList.remove('x-img')
+        piece.classList.remove('o-img')
       })
       gBArray.forEach(element => {
         element.state = 0
@@ -169,14 +169,14 @@ const gameModule = (function() {
         currentState = piece.getAttribute('state')
         currentNum = piece.getAttribute('num')
         if (value == 1 && currentState != 1 && currentState != 2) {
-          piece.classList.add('red')
+          piece.classList.add('x-img')
           piece.setAttribute('state', 1)
           _changeArrayState(currentNum, value)
           value = 2
           _render(`${pMArray[player2].name}'s turn`)
           _checkWinState()
         } else if (value == 2 && currentState != 1 && currentState != 2) {
-          piece.classList.add('blue')
+          piece.classList.add('o-img')
           piece.setAttribute('state', 2)
           _changeArrayState(currentNum, value)
           value = 1
